@@ -1,30 +1,29 @@
+import os
 import re
 
 target_file = "/Users/kay/homework/django-document/Authentication_Customizing-authentication-in-django.md"
-# TARGET_DIR = input()
-# match_md_file = re.match(r'.*md$')
-# MD_FILES = os.path.join(TARGET_DIR, r'.*md$')
-# print(MD_FILES)
-# for target_file in MD_FILES:
-#     with open(target_file, 'rt') as f:
-#         for line in f:
-#             target = re.sub(r'(?<=[#*])#', '? ', line)
-#             print(target)
+BASE_DIR = '/Users/kay/'
+TARGET_DIR = os.path.join(BASE_DIR, input())
 
-result = ''
-with open(target_file, 'rt') as f:
-    for line in f:
-        find_target = re.findall('#', line)
-        if len(find_target) > 0:
-            target = re.sub('#+', r'\g<0> ', line)
-            result += target
-        else:
-            result += line
+md_files = []
+for file in os.listdir(TARGET_DIR):
+    if file.endswith('.md'):
+        md_files.append(os.path.join(TARGET_DIR, file))
+print(md_files)
 
-result_file = target_file
+for target_file in md_files:
+    result = ''
+    with open(target_file, 'rt') as f:
+        for line in f:
+            find_target = re.findall('#', line)
+            if len(find_target) > 0:
+                target = re.sub('#+', r'\g<0> ', line)
+                result += target
+            else:
+                result += line
 
-with open(result_file, 'w') as r:
-    r.write(result)
+    with open(target_file, 'w') as r:
+        r.write(result)
 
 
 
